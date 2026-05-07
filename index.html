@@ -16,7 +16,7 @@
         flex-direction: column;
         align-items: center;
         padding: 2.5rem 1.5rem;
-        gap: 1.5rem;
+        gap: 1.2rem;
       }
 
       h1 {
@@ -28,6 +28,7 @@
       .controls {
         display: flex;
         gap: 1rem;
+        align-items: center;
       }
 
       button {
@@ -45,6 +46,11 @@
       #stop-btn  { background: #dc2626; color: #fff; }
       #stop-btn:hover  { background: #b91c1c; }
 
+      .hint {
+        font-size: 0.78rem;
+        color: #4b5563;
+      }
+
       .status {
         font-size: 0.9rem;
         height: 1.2em;
@@ -52,23 +58,43 @@
       }
       .status.playing { color: #10b981; }
       .status.stopped { color: #ef4444; }
+      .status.error   { color: #f59e0b; }
 
-      .code-wrap {
+      .editor-wrap {
         width: 100%;
-        max-width: 780px;
-        background: #161b22;
+        max-width: 820px;
         border: 1px solid #30363d;
         border-left: 4px solid #7c3aed;
         border-radius: 0.5rem;
-        overflow: auto;
+        overflow: hidden;
       }
 
-      .code-wrap pre {
-        padding: 1.5rem;
+      .editor-header {
+        background: #161b22;
+        padding: 0.45rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #21262d;
+        font-size: 0.78rem;
+        color: #6b7280;
+      }
+
+      #code-editor {
+        display: block;
+        width: 100%;
+        min-height: 380px;
+        padding: 1.2rem 1.4rem;
+        font-family: 'Courier New', monospace;
         font-size: 0.88rem;
-        line-height: 1.6;
+        line-height: 1.65;
         color: #e2e8f0;
-        white-space: pre;
+        background: #0d1117;
+        border: none;
+        outline: none;
+        resize: vertical;
+        tab-size: 2;
+        caret-color: #a855f7;
       }
     </style>
   </head>
@@ -78,12 +104,17 @@
     <div class="controls">
       <button id="play-btn">▶ Play</button>
       <button id="stop-btn">■ Stop</button>
+      <span class="hint">Ctrl+Enter per aggiornare il pattern</span>
     </div>
 
     <div id="status" class="status">Pronto – premi Play per iniziare</div>
 
-    <div class="code-wrap">
-      <pre id="code-display"></pre>
+    <div class="editor-wrap">
+      <div class="editor-header">
+        <span>pattern.js</span>
+        <span>modifica il codice liberamente</span>
+      </div>
+      <textarea id="code-editor" spellcheck="false" autocomplete="off" autocorrect="off"></textarea>
     </div>
 
     <script type="module" src="/src/main.js"></script>

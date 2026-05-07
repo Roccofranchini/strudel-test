@@ -1,0 +1,17 @@
+{
+  "name": "strudel-bass",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --open",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@strudel/web": "^1.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

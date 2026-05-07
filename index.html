@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Strudel Bass</title>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background: #0d1117;
+        color: #c9d1d9;
+        font-family: 'Courier New', monospace;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2.5rem 1.5rem;
+        gap: 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        color: #a855f7;
+        letter-spacing: 0.05em;
+      }
+
+      .controls {
+        display: flex;
+        gap: 1rem;
+      }
+
+      button {
+        padding: 0.6rem 1.6rem;
+        border: none;
+        border-radius: 0.4rem;
+        font-size: 1rem;
+        font-family: inherit;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+
+      #play-btn  { background: #7c3aed; color: #fff; }
+      #play-btn:hover  { background: #6d28d9; }
+      #stop-btn  { background: #dc2626; color: #fff; }
+      #stop-btn:hover  { background: #b91c1c; }
+
+      .status {
+        font-size: 0.9rem;
+        height: 1.2em;
+        color: #6b7280;
+      }
+      .status.playing { color: #10b981; }
+      .status.stopped { color: #ef4444; }
+
+      .code-wrap {
+        width: 100%;
+        max-width: 780px;
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-left: 4px solid #7c3aed;
+        border-radius: 0.5rem;
+        overflow: auto;
+      }
+
+      .code-wrap pre {
+        padding: 1.5rem;
+        font-size: 0.88rem;
+        line-height: 1.6;
+        color: #e2e8f0;
+        white-space: pre;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Strudel Bass</h1>
+
+    <div class="controls">
+      <button id="play-btn">▶ Play</button>
+      <button id="stop-btn">■ Stop</button>
+    </div>
+
+    <div id="status" class="status">Pronto – premi Play per iniziare</div>
+
+    <div class="code-wrap">
+      <pre id="code-display"></pre>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

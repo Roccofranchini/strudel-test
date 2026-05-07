@@ -1,7 +1,9 @@
-import { webaudioRepl } from '@strudel/web';
+import { initStrudel } from '@strudel/web';
 import { bassPattern } from './bass-pattern.js';
 
-let strudelRepl = null;
+// initStrudel() registra tutti i globali (note, s, stack, sine…) e il transpiler.
+// Restituisce una Promise<repl> — va chiamata una sola volta.
+let replPromise = null;
 
 const playBtn = document.getElementById('play-btn');
 const stopBtn = document.getElementById('stop-btn');
@@ -11,21 +13,26 @@ const codeEl = document.getElementById('code-display');
 codeEl.textContent = bassPattern.trim();
 
 playBtn.addEventListener('click', async () => {
-  // webaudioRepl() crea e inizializza il contesto audio globale di Strudel
-  if (!strudelRepl) {
-    strudelRepl = webaudioRepl();
+  setStatus('Inizializzazione audio...', '');
+  if (!replPromise) {
+    replPromise = initStrudel();
   }
-  statusEl.textContent = 'Caricamento suoni...';
-  statusEl.className = 'status';
-  // evaluate è async: aspetta che il pattern venga compilato prima di start()
-  await strudelRepl.evaluate(bassPattern);
-  strudelRepl.start();
-  statusEl.textContent = 'In riproduzione...';
-  statusEl.className = 'status playing';
+  const repl = await replPromise;
+  setStatus('Compilazione pattern...', '');
+  await repl.evaluate(bassPattern);
+  repl.start();
+  setStatus('In riproduzione...', 'playing');
 });
 
-stopBtn.addEventListener('click', () => {
-  strudelRepl?.stop();
-  statusEl.textContent = 'Fermato';
-  statusEl.className = 'status stopped';
+stopBtn.addEventListener('click', async () => {
+  if (replPromise) {
+    const repl = await replPromise;
+    repl.stop();
+  }
+  setStatus('Fermato', 'stopped');
 });
+
+function setStatus(text, cls) {
+  statusEl.textContent = text;
+  statusEl.className = `status ${cls}`.trim();
+}

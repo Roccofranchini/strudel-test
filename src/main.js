@@ -1,34 +1,24 @@
-import { repl, webaudioOutput } from '@strudel/web';
+import { webaudioRepl } from '@strudel/web';
 import { bassPattern } from './bass-pattern.js';
 
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-let audioCtx = null;
 let strudelRepl = null;
-
-function initAudio() {
-  if (!audioCtx) {
-    audioCtx = new AudioContext();
-  }
-  if (!strudelRepl) {
-    strudelRepl = repl({
-      defaultOutput: webaudioOutput,
-      getTime: () => audioCtx.currentTime,
-    });
-  }
-}
 
 const playBtn = document.getElementById('play-btn');
 const stopBtn = document.getElementById('stop-btn');
 const statusEl = document.getElementById('status');
 const codeEl = document.getElementById('code-display');
 
-// Mostra il codice del pattern nell'UI
 codeEl.textContent = bassPattern.trim();
 
 playBtn.addEventListener('click', async () => {
-  initAudio();
-  await audioCtx.resume();
-  strudelRepl.evaluate(bassPattern);
+  // webaudioRepl() crea e inizializza il contesto audio globale di Strudel
+  if (!strudelRepl) {
+    strudelRepl = webaudioRepl();
+  }
+  statusEl.textContent = 'Caricamento suoni...';
+  statusEl.className = 'status';
+  // evaluate è async: aspetta che il pattern venga compilato prima di start()
+  await strudelRepl.evaluate(bassPattern);
   strudelRepl.start();
   statusEl.textContent = 'In riproduzione...';
   statusEl.className = 'status playing';
